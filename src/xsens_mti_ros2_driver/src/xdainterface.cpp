@@ -1343,72 +1343,110 @@ bool XdaInterface::configureSensorSettings()
 void XdaInterface::declareCommonParameters()
 {
 	// Declare ROS parameters common to all the publishers
-	m_node->declare_parameter("scan_for_devices", true);
-	m_node->declare_parameter("port", "/dev/ttyUSB0");
-	m_node->declare_parameter("baudrate", 115200);
-	m_node->declare_parameter("device_id", "");
-	m_node->declare_parameter("publisher_queue_size", 5);
-	m_node->declare_parameter("enable_logging", false);
-
+	if (!m_node->has_parameter("scan_for_devices"))
+		m_node->declare_parameter("scan_for_devices", true);
+	if (!m_node->has_parameter("port"))
+		m_node->declare_parameter("port", "/dev/ttyUSB0");
+	if (!m_node->has_parameter("baudrate"))
+		m_node->declare_parameter("baudrate", 115200);
+	if (!m_node->has_parameter("device_id"))
+		m_node->declare_parameter("device_id", "");
+	if (!m_node->has_parameter("publisher_queue_size"))
+		m_node->declare_parameter("publisher_queue_size", 5);
+	if (!m_node->has_parameter("enable_logging"))
+		m_node->declare_parameter("enable_logging", false);
 	std::string frame_id = DEFAULT_FRAME_ID;
-	m_node->declare_parameter("frame_id", frame_id);
-
-	m_node->declare_parameter("enable_deviceConfig", false);
-	m_node->declare_parameter("enable_filter_config", false);
-	m_node->declare_parameter("mti_filter_option", 0);
-	m_node->declare_parameter("mti620630filterlabel_rollpitch", "Robust");
-	m_node->declare_parameter("mti620630filterlabel_yaw", "NorthReference");
-	m_node->declare_parameter("enable_active_heading_stabilization", false);
-
-	m_node->declare_parameter("ublox_platform", 0);
-	m_node->declare_parameter("enable_beidou", false);
-
-	m_node->declare_parameter("output_data_rate", 100);
-	m_node->declare_parameter("output_data_rate_lower", 100);
-	m_node->declare_parameter("output_data_rate_baro_mtione", 50);
-
-	m_node->declare_parameter("enable_high_rate", false);
-	m_node->declare_parameter("output_data_rate_acchr", 1000);
-	m_node->declare_parameter("output_date_rate_gyrohr", 800);
-
-	m_node->declare_parameter("enable_orientation_smoother", false);
-	m_node->declare_parameter("enable_position_velocity_smoother", false);
-	m_node->declare_parameter("enable_continuous_zero_rotation_update", false);
-	m_node->declare_parameter("enable_inrun_compass_calibration", false);
-	m_node->declare_parameter("enable_rotsensor_frame_config", false);
-
-
-	m_node->declare_parameter("enable_setting_baudrate", false);
-	m_node->declare_parameter("set_baudrate_value", 115200);
-
-
+	if (!m_node->has_parameter("frame_id"))
+		m_node->declare_parameter("frame_id", frame_id);
+	if (!m_node->has_parameter("enable_deviceConfig"))
+		m_node->declare_parameter("enable_deviceConfig", false);
+	if (!m_node->has_parameter("enable_filter_config"))
+		m_node->declare_parameter("enable_filter_config", false);
+	if (!m_node->has_parameter("mti_filter_option"))
+		m_node->declare_parameter("mti_filter_option", 0);
+	if (!m_node->has_parameter("mti620630filterlabel_rollpitch"))
+		m_node->declare_parameter("mti620630filterlabel_rollpitch", "Robust");
+	if (!m_node->has_parameter("mti620630filterlabel_yaw"))
+		m_node->declare_parameter("mti620630filterlabel_yaw", "NorthReference");
+	if (!m_node->has_parameter("enable_active_heading_stabilization"))
+		m_node->declare_parameter("enable_active_heading_stabilization", false);
+	if (!m_node->has_parameter("ublox_platform"))
+		m_node->declare_parameter("ublox_platform", 0);
+	if (!m_node->has_parameter("enable_beidou"))
+		m_node->declare_parameter("enable_beidou", false);
+	if (!m_node->has_parameter("output_data_rate"))
+		m_node->declare_parameter("output_data_rate", 100);
+	if (!m_node->has_parameter("output_data_rate_lower"))
+		m_node->declare_parameter("output_data_rate_lower", 100);
+	if (!m_node->has_parameter("output_data_rate_baro_mtione"))
+		m_node->declare_parameter("output_data_rate_baro_mtione", 50);
+	if (!m_node->has_parameter("enable_high_rate"))
+		m_node->declare_parameter("enable_high_rate", false);
+	if (!m_node->has_parameter("output_data_rate_acchr"))
+		m_node->declare_parameter("output_data_rate_acchr", 1000);
+	if (!m_node->has_parameter("output_date_rate_gyrohr"))
+		m_node->declare_parameter("output_date_rate_gyrohr", 800);
+	if (!m_node->has_parameter("enable_orientation_smoother"))
+		m_node->declare_parameter("enable_orientation_smoother", false);
+	if (!m_node->has_parameter("enable_position_velocity_smoother"))
+		m_node->declare_parameter("enable_position_velocity_smoother", false);
+	if (!m_node->has_parameter("enable_continuous_zero_rotation_update"))
+		m_node->declare_parameter("enable_continuous_zero_rotation_update", false);
+	if (!m_node->has_parameter("enable_inrun_compass_calibration"))
+		m_node->declare_parameter("enable_inrun_compass_calibration", false);
+	if (!m_node->has_parameter("enable_rotsensor_frame_config"))
+		m_node->declare_parameter("enable_rotsensor_frame_config", false);
+	if (!m_node->has_parameter("enable_setting_baudrate"))
+		m_node->declare_parameter("enable_setting_baudrate", false);
+	if (!m_node->has_parameter("set_baudrate_value"))
+		m_node->declare_parameter("set_baudrate_value", 115200);
 	bool should_publish = true;
-	m_node->declare_parameter("pub_utctime", should_publish);
-	m_node->declare_parameter("pub_sampletime", should_publish);
-	m_node->declare_parameter("pub_imu", should_publish);
-	m_node->declare_parameter("pub_quaternion", should_publish);
-	m_node->declare_parameter("pub_euler", should_publish);
-	m_node->declare_parameter("pub_free_acceleration", should_publish);
-	m_node->declare_parameter("pub_angular_velocity", should_publish);
-	m_node->declare_parameter("pub_acceleration", should_publish);
-	m_node->declare_parameter("pub_dq", should_publish);
-	m_node->declare_parameter("pub_dv", should_publish);
-	m_node->declare_parameter("pub_mag", should_publish);
-
-	m_node->declare_parameter("pub_temperature", should_publish);
-	m_node->declare_parameter("pub_pressure", should_publish);
-	m_node->declare_parameter("pub_accelerationhr", should_publish);
-	m_node->declare_parameter("pub_angular_velocity_hr", should_publish);
-	m_node->declare_parameter("pub_transform", should_publish);
-	m_node->declare_parameter("pub_status", should_publish);
-
-	m_node->declare_parameter("pub_twist", should_publish);
-	m_node->declare_parameter("pub_gnss", should_publish);
-	m_node->declare_parameter("pub_positionLLA", should_publish);
-	m_node->declare_parameter("pub_velocity", should_publish);
-	m_node->declare_parameter("pub_nmea", should_publish);
-	m_node->declare_parameter("pub_gnsspose", should_publish);
-	m_node->declare_parameter("pub_odometry", should_publish);
-
-
+	if (!m_node->has_parameter("pub_utctime"))
+		m_node->declare_parameter("pub_utctime", should_publish);
+	if (!m_node->has_parameter("pub_sampletime"))
+		m_node->declare_parameter("pub_sampletime", should_publish);
+	if (!m_node->has_parameter("pub_imu"))
+		m_node->declare_parameter("pub_imu", should_publish);
+	if (!m_node->has_parameter("pub_quaternion"))
+		m_node->declare_parameter("pub_quaternion", should_publish);
+	if (!m_node->has_parameter("pub_euler"))
+		m_node->declare_parameter("pub_euler", should_publish);
+	if (!m_node->has_parameter("pub_free_acceleration"))
+		m_node->declare_parameter("pub_free_acceleration", should_publish);
+	if (!m_node->has_parameter("pub_angular_velocity"))
+		m_node->declare_parameter("pub_angular_velocity", should_publish);
+	if (!m_node->has_parameter("pub_acceleration"))
+		m_node->declare_parameter("pub_acceleration", should_publish);
+	if (!m_node->has_parameter("pub_dq"))
+		m_node->declare_parameter("pub_dq", should_publish);
+	if (!m_node->has_parameter("pub_dv"))
+		m_node->declare_parameter("pub_dv", should_publish);
+	if (!m_node->has_parameter("pub_mag"))
+		m_node->declare_parameter("pub_mag", should_publish);
+	if (!m_node->has_parameter("pub_temperature"))
+		m_node->declare_parameter("pub_temperature", should_publish);
+	if (!m_node->has_parameter("pub_pressure"))
+		m_node->declare_parameter("pub_pressure", should_publish);
+	if (!m_node->has_parameter("pub_accelerationhr"))
+		m_node->declare_parameter("pub_accelerationhr", should_publish);
+	if (!m_node->has_parameter("pub_angular_velocity_hr"))
+		m_node->declare_parameter("pub_angular_velocity_hr", should_publish);
+	if (!m_node->has_parameter("pub_transform"))
+		m_node->declare_parameter("pub_transform", should_publish);
+	if (!m_node->has_parameter("pub_status"))
+		m_node->declare_parameter("pub_status", should_publish);
+	if (!m_node->has_parameter("pub_twist"))
+		m_node->declare_parameter("pub_twist", should_publish);
+	if (!m_node->has_parameter("pub_gnss"))
+		m_node->declare_parameter("pub_gnss", should_publish);
+	if (!m_node->has_parameter("pub_positionLLA"))
+		m_node->declare_parameter("pub_positionLLA", should_publish);
+	if (!m_node->has_parameter("pub_velocity"))
+		m_node->declare_parameter("pub_velocity", should_publish);
+	if (!m_node->has_parameter("pub_nmea"))
+		m_node->declare_parameter("pub_nmea", should_publish);
+	if (!m_node->has_parameter("pub_gnsspose"))
+		m_node->declare_parameter("pub_gnsspose", should_publish);
+	if (!m_node->has_parameter("pub_odometry"))
+		m_node->declare_parameter("pub_odometry", should_publish);
 }

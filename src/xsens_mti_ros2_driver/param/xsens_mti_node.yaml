@@ -179,13 +179,17 @@
         #options for MTi-1 v3: 1000, 500, 250, 200, 125
         #options for MTi-600: 2000, 1000, 500
         #option for MTi-100/200/300: 1000
+        #option for Sirius/Avior: 2000, 1000, 500
         output_data_rate_acchr: 1000
         #options for MTi-1 v2: 800, 400, 200, 160
         #options for MTi-1 v3: 1000, 500, 250, 200, 125
         #options for MTI-600: 1600, 800
         #option for MTi-100/200/300: 1000
+        #option for Sirius/Avior: 2000, 1000, 500
         output_date_rate_gyrohr: 1000
-
+        # whether using high rate acceleration data(accelerationHR) to interpolate the orientation and rateofturnHR data.
+        # when this is set to true, output_data_rate_acchr must >= output_date_rate_gyrohr
+        interpolate_orientation_high_rate: true
 
         # Filtering Option Flags 
         # -------------------------------------
@@ -203,7 +207,7 @@
         #This is necessary if you have hig output rate, and if you see error message of 'data overflow' 
         enable_setting_baudrate: false
         #options: 115200, 230400, 460800, 921600, 2000000
-        set_baudrate_value: 921600
+        set_baudrate_value: 2000000
 
 
         # Manual Gyro Bias Estimation (MGBE) Configuration
@@ -237,6 +241,8 @@
         angular_velocity_stddev: [0.0, 0.0, 0.0]   # [rad/s] Standard deviation for angular velocity
         orientation_stddev: [0.0, 0.0, 0.0]        # [rad]   Standard deviation for orientation
         magnetic_field_stddev: [0.0, 0.0, 0.0]     # [Tesla] Standard deviation for magnetic field
+
+
 
 
 

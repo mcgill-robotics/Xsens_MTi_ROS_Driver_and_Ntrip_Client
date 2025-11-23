@@ -59,6 +59,9 @@ protected:
 	void onError(XsDevice *, XsResultValue error) override;
 
 private:
+	void checkHighRateParameters();
+	void handleInterpolation(const XsDataPacket *packet, std::unique_lock<std::mutex> &lock);
+	
 	std::mutex m_mutex;
 	std::condition_variable m_condition;
 	std::list<RosXsDataPacket> m_buffer;

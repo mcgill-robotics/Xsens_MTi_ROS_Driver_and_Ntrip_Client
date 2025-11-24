@@ -30,26 +30,43 @@
 //  ARBITRATORS APPOINTED IN ACCORDANCE WITH SAID RULES.
 //  
 
-#ifndef XSCONTROLLINE_H
-#define XSCONTROLLINE_H
+#include "xsvector2.h"
+#include <string.h>
 
-/*!	\addtogroup enums Global enumerations
+/*! \class XsVector2
+	\brief A class that represents a fixed size (2) vector
+*/
+
+/*! \addtogroup cinterface C Interface
 	@{
 */
-/*! \brief Serial control lines. */
-enum XsControlLine
-{
-	XCL_DCD		= 0x0001,		//!< pin 1: Carrier Detect
-	XCL_RD		= 0x0002,		//!< pin 2: Received Data
-	XCL_TD		= 0x0004,		//!< pin 3: Transmitted Data
-	XCL_DTR		= 0x0008,		//!< pin 4: Data Terminal Ready
-	XCL_GND		= 0x0010,		//!< pin 5: Common Ground
-	XCL_DSR		= 0x0020,		//!< pin 6: Data Set Ready
-	XCL_RTS		= 0x0040,		//!< pin 7: Request To Send
-	XCL_CTS		= 0x0080,		//!< pin 8: Clear To Send
-	XCL_RI		= 0x0100		//!< pin 9: Ring Indicator
-};
-/*! @} */
-typedef enum XsControlLine XsControlLine;
 
-#endif
+/*! \relates XsVector2 \brief Init the %XsVector2 and copy the data from \a src into the vector if \a src is not null */
+void XsVector2_construct(XsVector2* thisPtr, const XsReal* src)
+{
+	XsVector_ref(&thisPtr->m_vector, 2, (XsReal*) thisPtr->m_fixedData, XSDF_FixedSize);
+	if (src)
+		memcpy((XsReal*) thisPtr->m_fixedData, src, 2 * sizeof(XsReal));
+}
+
+/*! \relates XsVector2 \brief Init the %XsVector2 and copy the data from \a src into the vector if \a src is not null */
+void XsVector2_assign(XsVector2* thisPtr, const XsReal* src)
+{
+	XsVector_assign(&thisPtr->m_vector, 2, src);
+}
+
+/*! \relates XsVector2 \brief Frees the XsVector2 */
+void XsVector2_destruct(XsVector2* thisPtr)
+{
+	// don't do anything, no memory needs to be freed
+	assert(thisPtr->m_vector.m_flags & XSDF_FixedSize);
+	(void)thisPtr;
+}
+
+/*! \relates XsVector2 \brief Copy the contents of the %XsVector2 to \a copy */
+void XsVector2_copy(XsVector* copy, XsVector2 const* src)
+{
+	XsVector_copy(copy, &src->m_vector);
+}
+
+/*! @} */

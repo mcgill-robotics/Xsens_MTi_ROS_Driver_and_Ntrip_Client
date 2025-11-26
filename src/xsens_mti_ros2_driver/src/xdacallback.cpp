@@ -226,6 +226,6 @@ void XdaCallback::onError(XsDevice *dev, XsResultValue error)
 	RCLCPP_ERROR(parent_node->get_logger(), "MTi Error: %s", XsResultValue_toString(error));
 	if(error == XRV_DATAOVERFLOW)
 	{
-		RCLCPP_ERROR(parent_node->get_logger(), "Data overflow occurred. Use MT Manager - Device Settings, to change the baudrate to higher value like 921600 or 2000000!! Optionally, change the enable_outputConfig to true to change the output in the xsens_mti_node.yaml. If both doesn't work, reduce your output data rate.");
+		RCLCPP_ERROR(parent_node->get_logger(), "Data overflow occurred. Use MT Manager - Device Settings, to change the baudrate to higher value like 921600 or 2000000!! Optionally, change the enable_deviceConfig to true to change the output in the xsens_mti_node.yaml. If both doesn't work, reduce your output data rate.");
 	}
 }

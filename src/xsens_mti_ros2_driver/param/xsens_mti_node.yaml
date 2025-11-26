@@ -44,7 +44,7 @@
         # 2) 1: Use UTCTime based on the SampleTimeFine from MTI.
         # 3) 2: Use UTCTime from the host device.
         # Note: Ensure "UTC Time" or "Sample Time Fine" is selected in MT Manager under Device Settings > Output Configurations, 
-        # or you could also set 'enable_outputConfig: true' for once to configure output.
+        # or you could also set 'enable_deviceConfig: true' for once to configure output.
         time_option: 0
 
         # Logging Configuration
@@ -126,7 +126,7 @@
         enable_beidou: false
 
 
-        # Message Publishers, Also the output configurations if enable_outputConfig is set to true
+        # Message Publishers, Also the output configurations if enable_deviceConfig is set to true
         # ------------------
         # Enable or disable publication of various sensor data:
         pub_utctime: true
@@ -153,13 +153,15 @@
         pub_nmea: true          # For GNSS/INS Version of MTI only
         pub_gnsspose: true      # For GNSS/INS Version of MTI only
         pub_odometry: false      # For GNSS/INS Version of MTI only
+        pub_euler_stddev: false  # For Sirius and Avior only, this is for setouput config, and value will be published at /imu/data topic.
 
 
 
         # Output Data Rate
         # ----------------
         # Set the desired output data rate in Hz. The driver will automatically configure the device to match this rate. 
-        # options for MTi-610/620/630/670/680/710/Sirius/Avior quaternion/euler/temperature/dq/dv/rateofturn/acc/free_acc: 1, 2, 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200, 400
+        # options for MTi-610/620/630/670/680/710/Sirius/Avior quaternion/euler/temperature/dq/dv/rateofturn/acc/free_acc, and for Sirius/Avior EulerStdDev: 
+            #1, 2, 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200, 400
         # options for MTi-670/680/710 position/velocity: 1, 2, 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200, 400
         # Change 'output_data_rate' if you are using mti-600 or 100 series
         output_data_rate: 100
@@ -240,8 +242,11 @@
         # Override the covariance matrix in sensor_msgs/Imu and sensor_msgs/MagneticField messages:
         linear_acceleration_stddev: [0.0, 0.0, 0.0] # [m/s^2] Standard deviation for linear acceleration
         angular_velocity_stddev: [0.0, 0.0, 0.0]   # [rad/s] Standard deviation for angular velocity
-        orientation_stddev: [0.0, 0.0, 0.0]        # [rad]   Standard deviation for orientation
         magnetic_field_stddev: [0.0, 0.0, 0.0]     # [Tesla] Standard deviation for magnetic field
+        # [rad]   Standard deviation for orientation,  
+        # for Sirius/Avior, if the pub_euler_stddev is true, will use that value from the sensor and igore this value.
+        orientation_stddev: [0.0, 0.0, 0.0]        
+        
 
 
 

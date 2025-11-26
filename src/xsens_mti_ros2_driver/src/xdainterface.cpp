@@ -744,6 +744,16 @@ bool XdaInterface::configureSensorSettings()
 			}
 		}
 
+		// Configure Euler angles standard deviation output for Sirius or Avior devices
+		if ((xsens_device_id.isAvior() || xsens_device_id.isSirius()))
+		{
+			if (m_node->get_parameter("pub_euler_stddev", should_config) && should_config)
+			{
+				configArray.push_back(XsOutputConfiguration(XDI_EulerAnglesStd, ODRoption));
+				RCLCPP_INFO(m_node->get_logger(), "XDI_EulerAnglesStd, %dHz", ODRoption);
+			}
+		}
+
 		bool enableHRData = false;
 		if (m_node->get_parameter("enable_high_rate", enableHRData) && enableHRData)
 		{
@@ -1511,6 +1521,8 @@ void XdaInterface::declareCommonParameters()
 		m_node->declare_parameter("pub_gnsspose", should_publish);
 	if (!m_node->has_parameter("pub_odometry"))
 		m_node->declare_parameter("pub_odometry", should_publish);
+	if (!m_node->has_parameter("pub_euler_stddev"))
+		m_node->declare_parameter("pub_euler_stddev", should_publish);
 	if (!m_node->has_parameter("port_config_hardware_flow_control"))
 		m_node->declare_parameter("port_config_hardware_flow_control", should_publish);	
 }

@@ -163,7 +163,7 @@ void XdaInterface::registerPublishers()
 	{
 		if (m_node->get_parameter("pub_imu", should_publish) && should_publish)
 		{
-			registerCallback(new ImuPublisher(m_node));
+			registerCallback(new ImuPublisher(m_node, m_device));
 		}
 		if (m_node->get_parameter("pub_quaternion", should_publish) && should_publish)
 		{

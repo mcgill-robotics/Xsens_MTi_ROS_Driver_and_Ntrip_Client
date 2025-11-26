@@ -66,6 +66,7 @@
 #include "messagepublishers/accelerationhrpublisher.h"
 #include "messagepublishers/angularvelocityhrpublisher.h"
 #include "messagepublishers/odometrypublisher.h"
+#include "messagepublishers/shipmotionpublisher.h"
 #include "xsens_log_handler.h"
 
 #include <chrono>
@@ -107,6 +108,7 @@ void XdaInterface::registerPublishers()
 	bool isDeviceVruAhrs = m_device->deviceId().isAhrs() || m_device->deviceId().isVru();
 	bool isDeviceGnss = m_device->deviceId().isGnss();
 	bool isDeviceGnssRtk = m_device->deviceId().isRtk();
+	bool isDeviceSiriusAvior = m_device->deviceId().isSirius() || m_device->deviceId().isAvior();
 
 	if (m_node->get_parameter("pub_acceleration", should_publish) && should_publish)
 	{
@@ -180,6 +182,14 @@ void XdaInterface::registerPublishers()
 		if (m_node->get_parameter("pub_transform", should_publish) && should_publish)
 		{
 			registerCallback(new TransformPublisher(m_node));
+		}
+		//device is sirius or avior
+		if(isDeviceSiriusAvior)
+		{
+			if (m_node->get_parameter("pub_ship_motion", should_publish) && should_publish)
+			{
+				registerCallback(new ShipMotionPublisher(m_node));
+			}
 		}
 
 	}
@@ -800,6 +810,16 @@ bool XdaInterface::configureSensorSettings()
 				{
 					configArray.push_back(XsOutputConfiguration(XDI_FreeAcceleration, ODRoption));
 					RCLCPP_INFO(m_node->get_logger(), "XDI_FreeAcceleration, %dHz", ODRoption);
+				}
+			}
+			//heave position only for Avior and Sirius AHRS/VRU models
+			if ((xsens_device_id.isAvior() || xsens_device_id.isSirius()))
+			{
+				if (m_node->get_parameter("pub_ship_motion", should_config) && should_config)
+				{
+					configArray.push_back(XsOutputConfiguration(XDI_HeavePosition, ODRoptionLower));
+					configArray.push_back(XsOutputConfiguration(XDI_HeavePeriod, ODRoptionLower));
+					RCLCPP_INFO(m_node->get_logger(), "XDI_HeavePosition and XDI_HeavePeriod, %dHz", ODRoptionLower);
 				}
 			}
 		}
@@ -1525,4 +1545,6 @@ void XdaInterface::declareCommonParameters()
 		m_node->declare_parameter("pub_euler_stddev", should_publish);
 	if (!m_node->has_parameter("port_config_hardware_flow_control"))
 		m_node->declare_parameter("port_config_hardware_flow_control", should_publish);	
+	if (!m_node->has_parameter("pub_ship_motion"))
+		m_node->declare_parameter("pub_ship_motion", should_publish);
 }

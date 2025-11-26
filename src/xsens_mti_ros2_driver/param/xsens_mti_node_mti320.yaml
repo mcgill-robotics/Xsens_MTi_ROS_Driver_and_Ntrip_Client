@@ -146,14 +146,15 @@
         pub_angular_velocity_hr: true #High Rate Data Angular Velocity,  when this is true, set enable_high_rate to true as well
         pub_transform: true
         pub_status: true
-        pub_twist: true         # For GNSS/INS Version of MTI only
+        pub_twist: true          # For GNSS/INS Version of MTI only
         pub_gnss: false          # For GNSS/INS Version of MTI only
         pub_positionLLA: false   # For GNSS/INS Version of MTI only
         pub_velocity: false      # For GNSS/INS Version of MTI only
         pub_nmea: false          # For GNSS/INS Version of MTI only
         pub_gnsspose: false      # For GNSS/INS Version of MTI only
         pub_odometry: false      # For GNSS/INS Version of MTI only
-        pub_euler_stddev: false  # For Sirius and Avior only, this is for setouput config, and value will be published at /imu/data topic.
+        pub_euler_stddev: false  # For Sirius and Avior AHRS/VRU only, this is for setouput config, and value will be published at /imu/data topic.
+        pub_ship_motion: false   # For Sirius and Avior AHRS/VRU Only
 
 
 
@@ -169,6 +170,7 @@
         # options for MTi-600, 710, Sirius, Avior series: mag, baro pressure, max 100Hz:1, 2, 4, 5, 10, 20, 25, 50, 100
         # options for MTi-7/8 series: baro pressure, max 50Hz:1, 2, 5, 10, 25, 50
         # Change 'output_data_rate_lower' if you are using mti-1 series or if you want to change output rate for mag, baro for other product series
+        # Change 'output_data_rate_lower' if you want to change the output rate for heave position and heave period
         output_data_rate_lower: 100
         # Change 'output_data_rate_baro_mtione' if you use mti-7/8 only.
         output_data_rate_baro_mtione: 50

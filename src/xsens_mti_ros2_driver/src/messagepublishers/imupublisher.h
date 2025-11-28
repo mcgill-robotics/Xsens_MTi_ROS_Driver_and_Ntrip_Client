@@ -36,10 +36,7 @@
 #include "packetcallback.h"
 #include "publisherhelperfunctions.h"
 #include <sensor_msgs/msg/imu.hpp>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#include <xstypes/xsmath.h>
 
 struct ImuPublisher : public PacketCallback, PublisherHelperFunctions
 {
@@ -127,7 +124,7 @@ struct ImuPublisher : public PacketCallback, PublisherHelperFunctions
                         if (packet.containsOrientationEulerStd())
                         {
                             // Convert from degrees to radians, then calculate variance (std_dev^2)
-                            const double deg_to_rad = M_PI / 180.0;
+                            const XsReal deg_to_rad = XsMath_deg2radValue;
                             XsVector euler_std_dev = packet.orientationEulerStd();
                             XsVector euler_std_dev_rad = deg_to_rad * euler_std_dev;
                             msg.orientation_covariance[0] = euler_std_dev_rad[0] * euler_std_dev_rad[0];

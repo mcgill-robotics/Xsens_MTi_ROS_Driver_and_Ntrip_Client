@@ -154,7 +154,7 @@
         pub_gnsspose: true      # For GNSS/INS Version of MTI only
         pub_odometry: false     # For GNSS/INS Version of MTI only
         pub_euler_stddev: false # For Sirius and Avior AHRS/VRU only, this is for setouput config, and value will be published at /imu/data topic.
-        pub_ship_motion: true   # For Sirius and Avior AHRS/VRU Only
+        pub_ship_motion: true   # For Sirius and Avior AHRS Only
 
 
 

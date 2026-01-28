@@ -1,0 +1,6 @@
+LICENSE
+
+TODO: License to be added by the repository owner.
+
+This repository currently has no license. Please select and add
+an appropriate open-source license (e.g., BSD-3-Clause, Apache-2.0).

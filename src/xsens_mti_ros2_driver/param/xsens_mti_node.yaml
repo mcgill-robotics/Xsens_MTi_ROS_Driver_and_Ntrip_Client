@@ -62,9 +62,10 @@
         # ---------------------------
         # If you want to configure your sensor, firstly set this flag to true, then change desired values for the parameters below.
         # Note: This configuration is required only once, once it is successful, the configurations are stored in the sensor, then you could set this to false.
-        enable_deviceConfig: true
+        enable_deviceConfig: false
 
         # Sensor Extended Kalman Filter Option Configurations:
+        # Note: enable_rotsensor_frame_config MUST be set to false otherwise filter configuration will be skipped
         # --------------------------
         # ref: https://base.movella.com/s/article/article/MTi-Filter-Profiles-1605869708823
         # If you want to configure the filter option, firstly set the 'enable_filter_config', then:

@@ -241,6 +241,14 @@ void XdaInterface::registerPublishers()
 		RCLCPP_INFO(m_node->get_logger(), "Subscribing to /rtcm rostopic");
 	}
 
+	m_calibrateService = m_node->create_service<std_srvs::srv::Trigger>(
+		"/xsens/calibrate_gyro",
+		std::bind(&XdaInterface::calibrateGyroCallback, this, std::placeholders::_1, std::placeholders::_2)
+	);
+	m_resetHeadingService = m_node->create_service<std_srvs::srv::Trigger>(
+		"/xsens/reset_heading",
+		std::bind(&XdaInterface::resetHeadingCallback, this, std::placeholders::_1, std::placeholders::_2)
+	);
 }
 
 bool XdaInterface::connectDevice()
@@ -1547,4 +1555,48 @@ void XdaInterface::declareCommonParameters()
 		m_node->declare_parameter("port_config_hardware_flow_control", should_publish);	
 	if (!m_node->has_parameter("pub_ship_motion"))
 		m_node->declare_parameter("pub_ship_motion", should_publish);
+}
+
+// ========================================================================
+// ROS Service Callbacks
+// ========================================================================
+
+void XdaInterface::calibrateGyroCallback(
+    const std::shared_ptr<std_srvs::srv::Trigger::Request> req,
+    std::shared_ptr<std_srvs::srv::Trigger::Response> res)
+{
+    (void)req;
+    RCLCPP_INFO(m_node->get_logger(), "Manual Gyro Bias Estimation triggered via ROS Service.");
+    
+    // Trigger the calibration for 10 seconds
+    if (manualGyroBiasEstimation(0, 10)) 
+    {
+        res->success = true;
+        res->message = "Gyro calibration started for 10 seconds. Do not move the sub!";
+    } 
+    else 
+    {
+        res->success = false;
+        res->message = "Failed to send calibration command to MTi.";
+    }
+}
+
+void XdaInterface::resetHeadingCallback(
+    const std::shared_ptr<std_srvs::srv::Trigger::Request> req,
+    std::shared_ptr<std_srvs::srv::Trigger::Response> res)
+{
+    (void)req;
+    RCLCPP_INFO(m_node->get_logger(), "Heading reset triggered via ROS Service.");
+    
+    // XRM_Heading only zeroes out Yaw. (Use XRM_Alignment if you want to zero Roll and Pitch as well)
+    if (m_device != nullptr && m_device->resetOrientation(XRM_Heading)) 
+    {
+        res->success = true;
+        res->message = "Heading successfully reset to 0.0";
+    } 
+    else 
+    {
+        res->success = false;
+        res->message = "Failed to reset heading. Make sure device is in Measurement Mode.";
+    }
 }

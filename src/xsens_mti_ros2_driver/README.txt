@@ -49,6 +49,10 @@ Running:
     - There is also an example that shows a 3D visualization of the device (orientation data should be enabled in the device):
             $ ros2 launch xsens_mti_ros2_driver display.launch.py
 
+    - You can trigger manual gyro bias calibration or reset the heading via ROS 2 services:
+            $ ros2 service call /xsens/calibrate_gyro std_srvs/srv/Trigger
+            $ ros2 service call /xsens/reset_heading std_srvs/srv/Trigger
+
 
 -[ Troubleshooting ]------------------------------------------------------------
 

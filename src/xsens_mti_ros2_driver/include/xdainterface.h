@@ -39,6 +39,8 @@
 #include <xstypes/xsportinfo.h>
 #include <xstypes/xsstring.h>
 #include "std_msgs/msg/empty.hpp"
+#include <std_srvs/srv/trigger.hpp>
+#include <xstypes/xsresetmethod.h>
 
 #include <chrono>
 
@@ -71,6 +73,11 @@ private:
 	void declareCommonParameters();
 	bool configureSensorSettings();
 	bool manualGyroBiasEstimation(uint16_t sleep, uint16_t duration);
+
+	rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr m_calibrateService;
+	rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr m_resetHeadingService;
+	void calibrateGyroCallback(const std::shared_ptr<std_srvs::srv::Trigger::Request> req, std::shared_ptr<std_srvs::srv::Trigger::Response> res);
+	void resetHeadingCallback(const std::shared_ptr<std_srvs::srv::Trigger::Request> req, std::shared_ptr<std_srvs::srv::Trigger::Response> res);
 
 	XsControl *m_control;
 	XsDevice *m_device;

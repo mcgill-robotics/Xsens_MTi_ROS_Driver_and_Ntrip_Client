@@ -36,7 +36,8 @@ Here are the recommended Output Configurations and Device Settings:
     - +Setting GNSS Lever Arm for MTi-8/MTi-680(G)
     - +Setting u-Blox GNSS Platform
     - +Option Flags Settings(AHS,In-Run Compass, Beidou, OrientationSmoother, PositionVelocitySmoother, ContinousZRU); 
-    - +Manual Gyro Bias Estimation Periodically
+    - +Manual Gyro Bias Estimation Periodically and via ROS 2 Service (`/xsens/calibrate_gyro`)
+    - +Heading Reset via ROS 2 Service (`/xsens/reset_heading`)
     - +Add ``filter/euler`` and high rate topics for ``imu/acceleration_hr``, ``imu/angular_velocity_hr``
     - +Add error messages.
 
@@ -140,6 +141,13 @@ or ``ros2 topic echo /status`` to check the RTK Fix type, it should be 1(RTK Flo
 
 Please refer to [MTi Family Reference Manual](https://mtidocs.movella.com/mti-system-overview) for detailed definition of data. 
 
+
+## ROS Services
+
+| Service | Type | Description |
+|---|---|---|
+| `/xsens/calibrate_gyro` | `std_srvs/srv/Trigger` | Triggers Manual Gyro Bias Estimation (MGBE) for 10 seconds. Do not move the sensor while active! |
+| `/xsens/reset_heading` | `std_srvs/srv/Trigger` | Resets the yaw (heading) offset to 0.0 using `XRM_Heading` in the onboard Kalman filter runtime. |
 
 
 ## Troubleshooting
